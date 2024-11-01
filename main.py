@@ -5,7 +5,7 @@ class Scalc:
     def __init__(self, calc):
         self.calc = calc
         calc.title("Cool Calc")
-        calc.geometry("350x450")
+        calc.geometry("300x450")
         calc.configure(bg='lightblue')
 
         self.entry = tk.Entry(calc, width=20, font=('Arial', 24))
@@ -13,37 +13,49 @@ class Scalc:
         canvas= Canvas(self.calc, width= 1000, height= 750, bg="SpringGreen2")
         canvas.create_text(300, 50, text="HELLO WORLD", fill="black", font=('Helvetica 15 bold'))
 
-        self.create_button("+", 200, 250)
-        self.create_button("-", 200, 290)
-        self.create_button("*", 200, 325)
-        self.create_button("/", 200, 360)
-        self.create_button("7", 0, 250)   
-        self.create_button("8", 50, 250)  
-        self.create_button("9", 100, 250) 
-        self.create_button("4", 0, 290)   
-        self.create_button("5", 50, 290)  
-        self.create_button("6", 100, 290) 
-        self.create_button("3", 0, 325)   
-        self.create_button("2", 50, 325)  
-        self.create_button("1", 100, 325)
-        self.create_button("0", 0, 360)
-        self.create_button("=", 250, 400)
-        self.create_button("C", 0, 210)
-        self.create_button("cos", 300, 360)
-        self.create_button("cos", 300, 360)
-        self.create_button("cos", 300, 360)
+        self.create_button("7", 10, 100)
+        self.create_button("8", 80, 100)
+        self.create_button("9", 150, 100)
+
+        self.create_button("4", 10, 170)
+        self.create_button("5", 80, 170)
+        self.create_button("6", 150, 170)
+
+        self.create_button("1", 10, 240)
+        self.create_button("2", 80, 240)
+        self.create_button("3", 150, 240)
+
+        # Zero and decimal point buttons
+        self.create_button("0", 10, 310)
+        self.create_button(".", 150, 310)
+
+        # Operator buttons on the right
+        self.create_button("+", 200, 100)
+        self.create_button("-", 200, 170)
+        self.create_button("*", 200, 240)
+        self.create_button("/", 200, 310)
+        
+        # Additional functional buttons
+        self.create_button("=", 150, 380)
+        self.create_button("C", 10, 380)
+        self.create_button("3.1415", 80, 380)
+        
+        # Trigonometric function buttons (cos, sin, tan)
+        self.create_button("cos", 180, 380)
+
+
 
         self.current_expression = ""
 
-    
     def create_button(self, text, x, y):
         actions = {
-            "=": tk.Button(text=text, width=7, height=2, command=self.calculate),
+            "=": tk.Button(text=text, width=7, height=2, command=self.calculate, bg='#ffa500', activebackground='#ffa500'),
             "cos" : tk.Button(text=text, width=7, height=2, command=self.cos),
             "sin" : tk.Button(text=text, width=7, height=2, command=self.sin),
             "tan" : tk.Button(text=text, width=7, height=2, command=self.tan),
             "C" : tk.Button(text=text, width=7, height=2, command=self.clear_text),
-            "0" : tk.Button(text=text, width=13,height=2, command= lambda : self.numbers(text))
+            "0" : tk.Button(text=text, width=13,height=2, command= lambda : self.numbers(text)),
+            "3.1415" : tk.Button(text="π", width=7,height=2, command= lambda : self.numbers(text)),
             }
 
         if text in actions:
@@ -80,6 +92,7 @@ class Scalc:
         except Exception as e:
             self.entry.delete(0, tk.END)
             self.entry.insert(0, "Error")
+            
 
     def clear_text(self):
         self.entry.delete(0, tk.END)
