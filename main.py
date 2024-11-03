@@ -17,8 +17,8 @@ class Scalc:
         Roboto = font.Font(family="Roboto",size=20)
 
         self.entry = tk.Entry(calc, width=20, font=(Roboto))
-        self.entry.place(x=0, y=50)
-        canvas = Canvas(self.calc, width= 1000, height= 750, bg="SpringGreen2")
+        self.entry.place(x=0, y=55)
+        canvas = Canvas(self.calc, width= 100, height= 1500, bg="SpringGreen2")
         canvas.create_text(300, 50, text="HELLO WORLD", fill="black", font=(Roboto))
         #switch pages
         self.page1 = Page1(calc, self.entry)
@@ -32,40 +32,39 @@ class Page1(tk.Frame):
         self.entry = entry
 
         #numbers
-        self.create_button("7", 0, 150)
-        self.create_button("8", 50, 150)
-        self.create_button("9", 100, 150)
+        self.create_button("7", 50, 170)
+        self.create_button("8", 100, 170)
+        self.create_button("9", 150, 170)
 
-        self.create_button("4", 0, 190)
-        self.create_button("5", 50, 190)
-        self.create_button("6", 100, 190)
+        self.create_button("4", 50, 210)
+        self.create_button("5", 100, 210)
+        self.create_button("6", 150, 210)
 
-        self.create_button("1", 0, 230)
-        self.create_button("2", 50, 230)
-        self.create_button("3", 100, 230)
+        self.create_button("1", 50, 250)
+        self.create_button("2", 100, 250)
+        self.create_button("3", 150, 250)
 
         # Zero and decimal point buttons
-        self.create_button("0", 0, 270)
-        self.create_button(".", 100, 270)
+        self.create_button("0", 50, 290)
+        self.create_button(".", 150, 290)
         # Operator buttons on the right
-        self.create_button("+", 150, 110)
-        self.create_button("-", 150, 150)
-        self.create_button("*", 150, 190)
-        self.create_button("/", 150, 230)
+        self.create_button("+", 200, 250)
+        self.create_button("-", 200, 210)
+        self.create_button("*", 200, 170)
+        self.create_button("/", 200, 130)
         # Additional functional buttons
-        self.create_button("=", 150, 270)
-        self.create_button("C", 10, 380)
-        self.create_button("3.1415", 80, 380)
+        self.create_button("=", 200, 290)
+        self.create_button("C", 50, 130)
+        self.create_button("3.1415", 0, 250)
         # Trigonometric function buttons (cos, sin, tan)
-        self.create_button("sin", 0, 110)
-        self.create_button("cos", 50, 110)
-        self.create_button("tan", 100, 110)
+        self.create_button("sin", 50, 90)
+        self.create_button("cos", 150, 90)
+        self.create_button("tan",200, 90)
         #exponents
-        self.create_button("log", 200, 110)
-
+        #self.create_button("log", 200, 130)
 
         #page control
-        self.create_button("Switch to Page 2", 200, 190)
+        #self.create_button("Switch to Page 2", 200, 190)
         self.current_expression = ""
 
     def create_button(self, text, x, y):
@@ -76,7 +75,7 @@ class Page1(tk.Frame):
             "tan" : tk.Button(text=text, width=7, height=2, command=self.tan, bg='#F28C28'),
             "C" : tk.Button(text=text, width=7, height=2, command=self.clear_text, bg = "#D70040"),
             "0" : tk.Button(text=text,width=13,height=2, command= lambda : self.numbers(text)),
-            "3.1415" : tk.Button(text="π", width=7,height=2, command= lambda : self.numbers(text)),
+            "3.1415" : tk.Button(text="π", width=6,height=2, command= lambda : self.numbers(text)),
             "log" : tk.Button(text=text, width=7,height=2, command= self.logs),
             }
 
