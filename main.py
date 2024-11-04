@@ -62,6 +62,8 @@ class Page1(tk.Frame):
         self.create_button("tan",200, 90)
         #exponents
         #self.create_button("log", 200, 130)
+        self.create_button("**2", 250, 90)
+        self.create_button("**0.5", 250, 90)
 
         #page control
         #self.create_button("Switch to Page 2", 200, 190)
@@ -77,6 +79,8 @@ class Page1(tk.Frame):
             "0" : tk.Button(text=text,width=13,height=2, command= lambda : self.numbers(text)),
             "3.1415" : tk.Button(text="π", width=6,height=2, command= lambda : self.numbers(text)),
             "log" : tk.Button(text=text, width=7,height=2, command= self.logs),
+            "**2" : tk.Button(text="x²", width=6,height=2, command= lambda : self.numbers(text)),
+            "**0.5": tk.Button(text="√", width=6,height=2, command= self.rot)
             }
 
         if text in actions:
@@ -106,6 +110,11 @@ class Page1(tk.Frame):
         log_input = int(eval(self.entry.get()))
         self.entry.delete(0, tk.END)
         self.entry.insert(0, f"{(math.log(log_input)):.3f}")
+    
+    def rot(self):
+        rot_input = int(eval(self.entry.get()))
+        self.entry.delete(0, tk.END)
+        self.entry.insert(0, f"{(rot_input**0.5):.1f}")
 
     #normal eq
     def numbers(self,text):
