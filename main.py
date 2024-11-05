@@ -1,10 +1,12 @@
 import tkinter as tk
 from tkinter import *
+from tkinter import ttk
 from tkinter import font
 import math
+import cmath
 import ast
 
-class Scalc:
+class Scalc():
     def __init__(self, calc):
         self.calc = calc
         calc.title("Cool Calc")
@@ -16,10 +18,21 @@ class Scalc:
 
         Roboto = font.Font(family="Roboto",size=20)
 
+        #container = calc.Frame(self)  
+        #container.pack(side = "top", fill = "both", expand = FALSE) 
+
         self.entry = tk.Entry(calc, width=20, font=(Roboto))
         self.entry.place(x=0, y=55)
+
         canvas = Canvas(self.calc, width= 100, height= 1500, bg="SpringGreen2")
         canvas.create_text(300, 50, text="HELLO WORLD", fill="black", font=(Roboto))
+        
+        #container.grid_rowconfigure(0, weight = 1)
+        #container.grid_columnconfigure(0, weight = 1)
+  
+        # initializing frames to an empty array
+        #self.frames = {}  
+  
         #switch pages
         self.page1 = Page1(calc, self.entry)
 
@@ -55,15 +68,17 @@ class Page1(tk.Frame):
         # Additional functional buttons
         self.create_button("=", 200, 290)
         self.create_button("C", 50, 130)
-        self.create_button("3.1415", 0, 250)
+        self.create_button("3.1415", 0, 290)
         # Trigonometric function buttons (cos, sin, tan)
         self.create_button("sin", 50, 90)
-        self.create_button("cos", 150, 90)
-        self.create_button("tan",200, 90)
+        self.create_button("cos", 100, 90)
+        self.create_button("tan", 150, 90)
         #exponents
         #self.create_button("log", 200, 130)
-        self.create_button("**2", 250, 90)
-        self.create_button("**0.5", 250, 90)
+        self.create_button("**2", 0, 210)
+        self.create_button("**0.5", 0, 170)
+
+        self.create_button("!", 0, 250)
 
         #page control
         #self.create_button("Switch to Page 2", 200, 190)
@@ -80,7 +95,9 @@ class Page1(tk.Frame):
             "3.1415" : tk.Button(text="π", width=6,height=2, command= lambda : self.numbers(text)),
             "log" : tk.Button(text=text, width=7,height=2, command= self.logs),
             "**2" : tk.Button(text="x²", width=6,height=2, command= lambda : self.numbers(text)),
-            "**0.5": tk.Button(text="√", width=6,height=2, command= self.rot)
+            "**0.5": tk.Button(text="√", width=6,height=2, command= self.rot),
+            "+":tk.Button(text=text,width=7,height=2,bg='#F28C28', command= lambda : self.numbers(text)),
+            "!" : tk.Button(text=text, width=6, height=2, command=self.factorial, bg='#F28C28')
             }
 
         if text in actions:
@@ -114,7 +131,19 @@ class Page1(tk.Frame):
     def rot(self):
         rot_input = int(eval(self.entry.get()))
         self.entry.delete(0, tk.END)
-        self.entry.insert(0, f"{(rot_input**0.5):.1f}")
+        the_root = rot_input**0.5
+        self.entry.insert(0, f"{(the_root):.1f}") #fix later for imajanary countring
+        #if rot_input > 0:
+            #self.entry.insert(0, f"{(the_root):.1f}")
+        #else:
+            #self.entry.insert(0, f"{(the_root.imag):.1f}")
+            
+    def factorial(self):
+        n = int(eval(self.entry.get()))
+        self.entry.delete(0, tk.END)
+        factorail_num = math.factorial(n)
+        self.entry.insert(0,factorail_num)
+            
 
     #normal eq
     def numbers(self,text):
@@ -126,7 +155,7 @@ class Page1(tk.Frame):
         try:
             total = str(eval(self.entry.get()))
             self.entry.delete(0, tk.END)
-            self.entry.insert(0,f"{total}")#fix
+            self.entry.insert(0,total)#fix
         except Exception as e:
             self.entry.delete(0, tk.END)
             self.entry.insert(0, "Error")
