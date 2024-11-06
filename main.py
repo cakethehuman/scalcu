@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import font
 import math
+from scipy.special import cbrt
 import cmath
 import ast
 
@@ -74,9 +75,10 @@ class Page1(tk.Frame):
         self.create_button("cos", 100, 90)
         self.create_button("tan", 150, 90)
         #exponents
-        #self.create_button("log", 200, 130)
+        self.create_button("log", 200, 130)
         self.create_button("**2", 0, 210)
         self.create_button("**0.5", 0, 170)
+        self.create_button("∛", 0, 130)
 
         self.create_button("!", 0, 250)
 
@@ -97,7 +99,8 @@ class Page1(tk.Frame):
             "**2" : tk.Button(text="x²", width=6,height=2, command= lambda : self.numbers(text)),
             "**0.5": tk.Button(text="√", width=6,height=2, command= self.rot),
             "+":tk.Button(text=text,width=7,height=2,bg='#F28C28', command= lambda : self.numbers(text)),
-            "!" : tk.Button(text=text, width=6, height=2, command=self.factorial, bg='#F28C28')
+            "!" : tk.Button(text=text, width=6, height=2, command=self.factorial, bg='#F28C28'),
+            "∛" : tk.Button(text=text, width=6,height=2, command= self.root3)
             }
 
         if text in actions:
@@ -131,12 +134,17 @@ class Page1(tk.Frame):
     def rot(self):
         rot_input = int(eval(self.entry.get()))
         self.entry.delete(0, tk.END)
-        the_root = rot_input**0.5
-        self.entry.insert(0, f"{(the_root):.1f}") #fix later for imajanary countring
+        the_root = cbrt(rot_input)
+        self.entry.insert(0, f"{(the_root):.3f}") #fix later for imajanary countring
         #if rot_input > 0:
             #self.entry.insert(0, f"{(the_root):.1f}")
         #else:
             #self.entry.insert(0, f"{(the_root.imag):.1f}")
+
+    def root3(self):
+        rot_input = int(eval(self.entry.get()))
+        self.entry.delete(0, tk.END)
+        self.entry.insert(0, f"{cbrt(rot_input):.3f}")
             
     def factorial(self):
         n = int(eval(self.entry.get()))
