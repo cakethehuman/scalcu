@@ -7,8 +7,10 @@ from scipy.special import cbrt
 import cmath
 import ast
 
-class Scalc():
+class Scalc(tk.Tk):
     def __init__(self, calc):
+        super().__init__()
+        #tk.Tk.__init__(self, *args, **kwargs)
         self.calc = calc
         calc.title("Cool Calc")
         calc.geometry("300x450")
@@ -19,29 +21,18 @@ class Scalc():
 
         Roboto = font.Font(family="Roboto",size=20)
 
-        #container = calc.Frame(self)  
-        #container.pack(side = "top", fill = "both", expand = FALSE) 
-
         self.entry = tk.Entry(calc, width=20, font=(Roboto))
         self.entry.place(x=0, y=55)
 
         canvas = Canvas(self.calc, width= 100, height= 1500, bg="SpringGreen2")
         canvas.create_text(300, 50, text="HELLO WORLD", fill="black", font=(Roboto))
-        
-        #container.grid_rowconfigure(0, weight = 1)
-        #container.grid_columnconfigure(0, weight = 1)
-  
-        # initializing frames to an empty array
-        #self.frames = {}  
-  
-        #switch pages
+
         self.page1 = Page1(calc, self.entry)
 
 
 
 class Page1(tk.Frame):
     def __init__(self, calc,entry):
-        super().__init__(calc)
         self.calc = calc
         self.entry = entry
 
@@ -75,12 +66,18 @@ class Page1(tk.Frame):
         self.create_button("cos", 100, 90)
         self.create_button("tan", 150, 90)
         #exponents
-        self.create_button("log", 200, 130)
+        self.create_button("log10", 150, 130)
         self.create_button("**2", 0, 210)
         self.create_button("**0.5", 0, 170)
         self.create_button("∛", 0, 130)
-
+        self.create_button("in", 100, 130)
+        
+        
+        #!mod and stuff
         self.create_button("!", 0, 250)
+        self.create_button("%",200,130)
+
+
 
         #page control
         #self.create_button("Switch to Page 2", 200, 190)
@@ -95,16 +92,23 @@ class Page1(tk.Frame):
             "C" : tk.Button(text=text, width=7, height=2, command=self.clear_text, bg = "#D70040"),
             "0" : tk.Button(text=text,width=13,height=2, command= lambda : self.numbers(text)),
             "3.1415" : tk.Button(text="π", width=6,height=2, command= lambda : self.numbers(text)),
-            "log" : tk.Button(text=text, width=7,height=2, command= self.logs),
+            "log10" : tk.Button(text=text, width=7,height=2, command= self.logs),
             "**2" : tk.Button(text="x²", width=6,height=2, command= lambda : self.numbers(text)),
             "**0.5": tk.Button(text="√", width=6,height=2, command= self.rot),
             "+":tk.Button(text=text,width=7,height=2,bg='#F28C28', command= lambda : self.numbers(text)),
             "!" : tk.Button(text=text, width=6, height=2, command=self.factorial, bg='#F28C28'),
-            "∛" : tk.Button(text=text, width=6,height=2, command= self.root3)
+            "%" : tk.Button(text="mod", width=7,height=2, command= lambda : self.numbers(text)),
+            "∛" : tk.Button(text=text, width=6,height=2, command= self.root3),
+            "in" : tk.Button(text=text, width=6,height=2, command= self.login)
             }
 
         if text in actions:
-            button = actions.get(text)
+            try:
+                button = actions.get(text)
+            except:
+                self.entry.delete(0, tk.END)
+                self.entry.insert(0, "error")
+
         else:
             button = tk.Button(text=text, width=7,height=2, bg ='#FFFFFF',command= lambda : self.numbers(text))
         button.place(x=x, y=y)
@@ -127,6 +131,11 @@ class Page1(tk.Frame):
         self.entry.insert(0, f"{(math.tan(math.radians(total))):.3f}")
     #exponents
     def logs(self):
+        log_input = int(eval(self.entry.get()))
+        self.entry.delete(0, tk.END)
+        self.entry.insert(0, f"{(math.log10(log_input)):.3f}")
+    
+    def login(self):
         log_input = int(eval(self.entry.get()))
         self.entry.delete(0, tk.END)
         self.entry.insert(0, f"{(math.log(log_input)):.3f}")
@@ -174,7 +183,6 @@ class Page1(tk.Frame):
 
 class Page2(tk.Frame):
     def __init__(self, calc, entry):
-        super().__init__(calc)
         self.entry = entry
         self.calc = calc
 
