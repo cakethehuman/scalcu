@@ -10,7 +10,7 @@ import ast
 class Scalc(tk.Tk):
     def __init__(self, calc):
         super().__init__()
-        #tk.Tk.__init__(self, *args, **kwargs)
+       
         self.calc = calc
         calc.title("Cool Calc")
         calc.geometry("300x450")
