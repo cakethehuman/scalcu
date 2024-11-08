@@ -9,11 +9,9 @@ import ast
 
 class Scalc(tk.Tk):
     def __init__(self, calc):
-        super().__init__()
-       
         self.calc = calc
         calc.title("Cool Calc")
-        calc.geometry("300x450")
+        calc.geometry("250x350")
         calc.configure(bg='#28282B')
         calc.resizable(False, False)
         img = PhotoImage(file='assets\school.png')
@@ -26,10 +24,9 @@ class Scalc(tk.Tk):
 
         canvas = Canvas(self.calc, width= 100, height= 1500, bg="SpringGreen2")
         canvas.create_text(300, 50, text="HELLO WORLD", fill="black", font=(Roboto))
-
+        
+        
         self.page1 = Page1(calc, self.entry)
-
-
 
 class Page1(tk.Frame):
     def __init__(self, calc,entry):
@@ -76,11 +73,13 @@ class Page1(tk.Frame):
         #!mod and stuff
         self.create_button("!", 0, 250)
         self.create_button("%",200,130)
+        self.create_button("exp",200,90)
+
+        self.create_button("page2",200,90)
 
 
 
         #page control
-        #self.create_button("Switch to Page 2", 200, 190)
         self.current_expression = ""
 
     def create_button(self, text, x, y):
@@ -99,7 +98,9 @@ class Page1(tk.Frame):
             "!" : tk.Button(text=text, width=6, height=2, command=self.factorial, bg='#F28C28'),
             "%" : tk.Button(text="mod", width=7,height=2, command= lambda : self.numbers(text)),
             "∛" : tk.Button(text=text, width=6,height=2, command= self.root3),
-            "in" : tk.Button(text=text, width=6,height=2, command= self.login)
+            "in" : tk.Button(text=text, width=6,height=2, command= self.login),
+            "exp" :  tk.Button(text=text, width=7,height=2, command= self.exps),
+            "page2": tk.Button(text=text, width=7,height=2, command= self.pagechange)
             }
 
         if text in actions:
@@ -110,10 +111,20 @@ class Page1(tk.Frame):
                 self.entry.insert(0, "error")
 
         else:
-            button = tk.Button(text=text, width=7,height=2, bg ='#FFFFFF',command= lambda : self.numbers(text))
+            try:
+                text = int(text)
+                button = tk.Button(text=text, width=7,height=2, bg ='#FFFFFF',command= lambda : self.numbers(text))
+            except ValueError:    
+                button = tk.Button(text=text, width=7,height=2, bg ='#F28C28',command= lambda : self.numbers(text))
         button.place(x=x, y=y)
+
+
+    def pagechange(self,enrty):
+        self.page2 = Page2(enrty)
+
     
     #trigeo
+
     def cos(self):
         total = self.entry.get()
         angle = float(ast.literal_eval(total))
@@ -129,7 +140,10 @@ class Page1(tk.Frame):
         total = int(eval(self.entry.get()))
         self.entry.delete(0, tk.END)
         self.entry.insert(0, f"{(math.tan(math.radians(total))):.3f}")
+
+
     #exponents
+
     def logs(self):
         log_input = int(eval(self.entry.get()))
         self.entry.delete(0, tk.END)
@@ -154,12 +168,20 @@ class Page1(tk.Frame):
         rot_input = int(eval(self.entry.get()))
         self.entry.delete(0, tk.END)
         self.entry.insert(0, f"{cbrt(rot_input):.3f}")
-            
+
+
+    #spes
     def factorial(self):
         n = int(eval(self.entry.get()))
         self.entry.delete(0, tk.END)
         factorail_num = math.factorial(n)
         self.entry.insert(0,factorail_num)
+
+    def exps(self):
+        n = int(eval(self.entry.get()))
+        self.entry.delete(0, tk.END)
+        exp_total = math.exp(n)
+        self.entry.insert(0,exp_total)
             
 
     #normal eq
@@ -180,19 +202,6 @@ class Page1(tk.Frame):
 
     def clear_text(self):
         self.entry.delete(0, tk.END)
-
-class Page2(tk.Frame):
-    def __init__(self, calc, entry):
-        self.entry = entry
-        self.calc = calc
-
-        label = tk.Label(self, text="Page 2", font=("Roboto", 20))
-        label.pack(pady=20)
-
-        # Button to go back to Page 1
-        switch_button = tk.Button(self, text="Back to Page 1", command=lambda: calc.show_page(calc.page1))
-        switch_button.pack()
-
 
 if __name__ == "__main__":
     root = tk.Tk()
